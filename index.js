@@ -17,11 +17,15 @@ app.get('/', async (req, res) => {
 
     // Декодируем значение параметра "source"
     const decodedValue = Buffer.from(sourceParam, 'base64').toString('utf-8');
-    console.log(decodedValue);
-    // Делаем запрос на полученный URL
-    const response = await axios.get(decodedValue);
 
-    // Отправляем ответ клиенту
+    // Делаем GET-запрос на полученный URL
+    const response = await axios.get(decodedValue, { responseType: 'arraybuffer' });
+
+    // Определяем тип контента на основе заголовков ответа
+    const contentType = response.headers['content-type'] || 'application/octet-stream';
+
+    // Отправляем данные в ответе
+    res.set('Content-Type', contentType);
     res.send(response.data);
   } catch (error) {
     console.error('Error:', error.message);
