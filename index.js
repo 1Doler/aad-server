@@ -14,6 +14,7 @@ app.get('/', async (req, res) => {
   try {
     // Получаем значение параметра "source" из запроса
     const sourceParam = req.query.source;
+    console.log("source: ", sourceParam);
 
     // Декодируем значение параметра "source"
     const decodedValue = Buffer.from(sourceParam, 'base64').toString('utf-8');
